@@ -24,6 +24,10 @@ jobs:
           distribution: azul
 
       - name: Build with Maven
+        env:
+          PROD_DB_URL: ${{secrets.PROD_DB_URL}}
+          PROD_DB_USER: ${{secrets.PROD_DB_USER}}
+          PROD_DB_PASSWORD: ${{secrets.PROD_DB_PASSWORD}}
         run: mvn clean package
 
       - name: Upload Build Artifact
