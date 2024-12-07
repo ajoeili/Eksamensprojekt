@@ -1,0 +1,36 @@
+name: CI/CD Pipeline - Main Branch
+
+on:
+  push:
+    branches:
+      - main        # Trigger only when pushing to main
+  pull_request:
+    branches:
+      - 'feature/*'  # Also trigger for PRs coming from feature branches
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: azul
+
+      - name: Build with Maven
+        env:
+          PROD_DB_URL: ${{ secrets.PROD_DB_URL }}
+          PROD_DB_USER: ${{ secrets.PROD_DB_USER }}
+          PROD_DB_PASSWORD: ${{ secrets.PROD_DB_PASSWORD }}
+        run: mvn clean package
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: spring-boot-app
+          path: target/*.jar
