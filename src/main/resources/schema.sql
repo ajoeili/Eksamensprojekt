@@ -55,7 +55,6 @@ CREATE TABLE IF NOT EXISTS PROJECT_EMPLOYEE
 
 
 
-
 -- TEST DATA ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -71,29 +70,31 @@ VALUES ('Project calculation tool',
 -- TEST SUB-PROJECTS
 
 INSERT INTO SUBPROJECTS(NAME, DESCRIPTION, START_DATE, END_DATE, PROJECT_ID)
-SELECT
-'Login',
-'Set up system to login employees',
-'2024-11-11',
-'2024-12-12',
-p.PROJECT_ID
-    FROM
-        PROJECTS p
-    WHERE
-        p.NAME = 'Project calculation tool';
+SELECT 'Login',
+       'Set up system to login employees',
+       '2024-11-11',
+       '2024-12-12',
+       p.PROJECT_ID
+FROM PROJECTS p
+WHERE p.NAME = 'Project calculation tool';
 
-INSERT INTO SUBPROJECTS(NAME, DESCRIPTION, START_DATE, END_DATE)
-VALUES ('CSS Styling',
-        'Create a styling sheet for the tool',
-        '2024-11-19',
-        '2024-12-01');
+INSERT INTO SUBPROJECTS(NAME, DESCRIPTION, START_DATE, END_DATE, PROJECT_ID)
+SELECT 'CSS Styling',
+       'Create a styling sheet for the tool',
+       '2024-11-19',
+       '2024-12-01',
+       p.PROJECT_ID
+FROM PROJECTS p
+WHERE p.NAME = 'Project calculation tool';
 
-INSERT INTO SUBPROJECTS(NAME, DESCRIPTION, START_DATE, END_DATE)
-VALUES ('Time-calculation',
-        'Create a method to calculate time information',
-        '2024-12-11',
-        '2025-01-12');
-
+INSERT INTO SUBPROJECTS(NAME, DESCRIPTION, START_DATE, END_DATE, PROJECT_ID)
+SELECT 'Time-calculation',
+       'Create a method to calculate time information',
+       '2024-12-11',
+       '2025-01-12',
+       p.PROJECT_ID
+FROM PROJECTS p
+WHERE p.NAME = 'Project calculation tool';
 
 -- TEST EMPLOYEES
 
@@ -133,64 +134,60 @@ VALUES ('Simon',
 -- TEST TASKS
 
 INSERT INTO TASKS (NAME, DESCRIPTION, ESTIMATED_HOURS, PRIORITY, DEADLINE, EMPLOYEE_ID, SUBPROJECT_ID)
-SELECT
-    'Authentication',
-    'Create APIs to authenticate employees',
-    3,
-    1,
-    '2024-11-20',
-    e.EMPLOYEE_ID,
-    s.SUBPROJECT_ID
-FROM
-    EMPLOYEES e, SUBPROJECTS s
-WHERE
-    e.FIRST_NAME = 'Jane' AND e.LAST_NAME = 'Jonassen'
+SELECT 'Authentication',
+       'Create APIs to authenticate employees',
+       3,
+       1,
+       '2024-11-20',
+       e.EMPLOYEE_ID,
+       s.SUBPROJECT_ID
+FROM EMPLOYEES e,
+     SUBPROJECTS s
+WHERE e.FIRST_NAME = 'Jane'
+  AND e.LAST_NAME = 'Jonassen'
   AND s.NAME = 'Login';
 
 
 INSERT INTO TASKS(NAME, DESCRIPTION, ESTIMATED_HOURS, PRIORITY, DEADLINE, EMPLOYEE_ID, SUBPROJECT_ID)
-SELECT
-    'Test login',
-    'Set up tests to check the login process',
-    5,
-    2,
-    '2025-01-11',
-    e.EMPLOYEE_ID,
-    s.SUBPROJECT_ID
-FROM
-    EMPLOYEES e, SUBPROJECTS s
-WHERE
-    e.FIRST_NAME = 'Jane' AND e.LAST_NAME = 'Jonassen'
+SELECT 'Test login',
+       'Set up tests to check the login process',
+       5,
+       2,
+       '2025-01-11',
+       e.EMPLOYEE_ID,
+       s.SUBPROJECT_ID
+FROM EMPLOYEES e,
+     SUBPROJECTS s
+WHERE e.FIRST_NAME = 'Jane'
+  AND e.LAST_NAME = 'Jonassen'
   AND s.NAME = 'Login';
 
 
 INSERT INTO TASKS(NAME, DESCRIPTION, ESTIMATED_HOURS, PRIORITY, DEADLINE, EMPLOYEE_ID, SUBPROJECT_ID)
-SELECT
-        'Design login page',
-        'Design login page with company logo and colors',
-        5,
-        2,
-        '2024-12-20',
-        e.EMPLOYEE_ID,
-        s.SUBPROJECT_ID
-FROM
-    EMPLOYEES e, SUBPROJECTS s
-WHERE
-    e.FIRST_NAME = 'Poul' AND e.LAST_NAME = 'Hansen'
+SELECT 'Design login page',
+       'Design login page with company logo and colors',
+       5,
+       2,
+       '2024-12-20',
+       e.EMPLOYEE_ID,
+       s.SUBPROJECT_ID
+FROM EMPLOYEES e,
+     SUBPROJECTS s
+WHERE e.FIRST_NAME = 'Poul'
+  AND e.LAST_NAME = 'Hansen'
   AND s.NAME = 'Login';
 
 INSERT INTO TASKS(NAME, DESCRIPTION, ESTIMATED_HOURS, PRIORITY, DEADLINE, EMPLOYEE_ID, SUBPROJECT_ID)
-SELECT
-    'HTML and styling for login page',
-    'Set up login page HTML and CSS styling according to design',
-    3,
-    1,
-    '2025-01-20',
-    e.EMPLOYEE_ID,
-    s.SUBPROJECT_ID
-FROM
-    EMPLOYEES e, SUBPROJECTS s
-WHERE
-    e.FIRST_NAME = 'Simon' AND e.LAST_NAME = 'Mortensen'
+SELECT 'HTML and styling for login page',
+       'Set up login page HTML and CSS styling according to design',
+       3,
+       1,
+       '2025-01-20',
+       e.EMPLOYEE_ID,
+       s.SUBPROJECT_ID
+FROM EMPLOYEES e,
+     SUBPROJECTS s
+WHERE e.FIRST_NAME = 'Simon'
+  AND e.LAST_NAME = 'Mortensen'
   AND s.NAME = 'Login';
 
