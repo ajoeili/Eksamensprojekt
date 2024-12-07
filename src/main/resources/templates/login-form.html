@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<h2>Login</h2>
+<form action="/calculationtool/login" method="POST" accept-charset="UTF-8">
+  <label for="email">Email:</label>
+  <input type="text" id="email" name="email" required><br><br>
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required><br><br>
+  <button type="submit">Login</button>
+</form>
+<div>
+  <p th:text="${message}"></p> <!-- Displays error message if invalid login -->
+</div>
+</body>
+</html>
