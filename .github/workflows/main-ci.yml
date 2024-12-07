@@ -16,12 +16,12 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Set up JDK 21 (Azul)
+      - name: Set up JDK 21 (Adoptium / Azul)
         uses: actions/setup-java@v3
         with:
-          java-version: '21'
-          distribution: azul
-
+          java-version: '21'           
+          distribution: 'adoptium'
+          
       - name: Build with Maven
         env:
           PROD_DB_URL: ${{ secrets.PROD_DB_URL }}
