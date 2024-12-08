@@ -5,30 +5,19 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<h2>Create New Project</h2>
-<form action="/projects/create" method="POST" th:object="${project}">
+<h2>CREATE NEW PROJECT</h2>
+<form action="/projects/create" method="POST">
 
     <label for="name">Project name:</label>
-    <input type="text" id="name" name="name" th:value="*{name}" required><br><br>
-
+    <input type="text" id="name" name="name" required><br><br>
     <label for="description">Description:</label>
-    <input type="text" id="description" name="description" th:value="*{description}" required><br><br>
+    <input type="text" id="description" name="description" required><br><br>
+    <label for="start date">Start date:</label>
+    <input type="date" id="start date" name="start date" required><br><br>
+    <label for="end date">End date:</label>
+    <input type="date" id="end date" name="end date" required><br><br>
 
-    <label for="startDate">Start date:</label>
-    <input type="date" id="startDate" name="startDate" th:value="*{startDate}" required><br><br>
-
-    <label for="endDate">End date:</label>
-    <input type="date" id="endDate" name="endDate" th:value="*{endDate}" required><br><br>
-
-    <!-- Multi-select dropdown for employees -->
-    <label for="employees">Select Employees:</label><br>
-    <select id="employees" name="employees" multiple="multiple" size="5" required>
-        <option th:each="employee : ${employees}"
-                th:value="${employee.employeeId}"
-                th:text="${employee.firstName} + ' ' + ${employee.lastName}"></option>
-    </select><br><br>
-
-    <button type="submit">Create Project</button>
+    <button type="submit">Create project</button>
 </form>
 </body>
 </html>
