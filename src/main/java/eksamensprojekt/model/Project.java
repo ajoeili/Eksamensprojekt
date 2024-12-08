@@ -11,7 +11,8 @@ public class Project {
     private Date endDate;
     private List<Employee> employees;
 
-    public Project() {}
+    public Project() {
+    }
 
     public Project(int projectId, String name, String description, Date startDate, Date endDate) {
         this.projectId = projectId;
