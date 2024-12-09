@@ -19,7 +19,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 
-public class ProjectServiceTest {
+public class ProjectServiceUnitTest {
 
     @Mock
     private ProjectRepository projectRepository;
