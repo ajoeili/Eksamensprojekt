@@ -33,10 +33,10 @@ public class ProjectServiceUnitTest {
     }
 
     @Test
-    public void createProject_success() {
+    public void testCreateProject_Success() {
         // Arrange
         Project project = new Project(10, "New Project", "Description of the project", new Date(), new Date());
-        Employee employee = new Employee(10, "Jens", "Hansen", "jeha85@email.com", "password10", "Tester", true);
+        Employee employee = new Employee(10, "Jens", "Hansen", "test@email.com", "password", "Tester", true);
         project.setEmployees(List.of(employee));
 
         // Act & Assert
@@ -49,7 +49,7 @@ public class ProjectServiceUnitTest {
     }
 
     @Test
-    public void createProject_emptyName() {
+    public void testCreateProject_EmptyName() {
         // Arrange
         Project project = new Project(10, "", "Description of the project", new Date(), new Date());
 
@@ -61,7 +61,7 @@ public class ProjectServiceUnitTest {
     }
 
     @Test
-    public void createProject_emptyDescription() {
+    public void testCreateProject_EmptyDescription() {
         // Arrange
         Project project = new Project(10, "New Project", "", new Date(), new Date());
 
@@ -73,7 +73,7 @@ public class ProjectServiceUnitTest {
     }
 
     @Test
-    public void createProject_nullStartDate() {
+    public void testCreateProject_NullStartDate() {
         // Arrange
         Project project = new Project(10, "New Project", "Description of the project", null, new Date());
 
@@ -85,7 +85,7 @@ public class ProjectServiceUnitTest {
     }
 
     @Test
-    public void createProject_nullEndDate() {
+    public void testCreateProject_NullEndDate() {
         // Arrange
         Project project = new Project(10, "New Project", "Description of the project", new Date(), null);
 
@@ -97,7 +97,7 @@ public class ProjectServiceUnitTest {
     }
 
     @Test
-    public void createProject_endDateBeforeStartDate() {
+    public void testCreateProject_EndDateBeforeStartDate() {
         // Arrange
         Date startDate = new Date();
         Date endDate = new Date(startDate.getTime() - 1000);  // End date is 1 second before the start date
@@ -111,7 +111,7 @@ public class ProjectServiceUnitTest {
     }
 
     @Test
-    public void createProject_invalidEmployeeId() {
+    public void testCreateProject_InvalidEmployeeId() {
         // Arrange
         Employee employee = new Employee(0, "Jens", "Hansen", "jeha85@email.com", "password10", "Tester", true); // Invalid ID (<= 0)
         Project project = new Project(10, "New Project", "Description of the project", new Date(), new Date());

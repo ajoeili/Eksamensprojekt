@@ -5,6 +5,8 @@ import eksamensprojekt.model.Project;
 import eksamensprojekt.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.thymeleaf.model.IModel;
 
 @Service
 public class ProjectService {
@@ -17,42 +19,35 @@ public class ProjectService {
     }
 
     // Create new project
-    public void createProject(Project project) {
-        if (project != null) {
-            if (project.getName().isEmpty()) {
-                throw new IllegalArgumentException(
-                        "Project name cannot be empty");
-            }
-            if (project.getDescription().isEmpty()) {
-                throw new IllegalArgumentException(
-                        "Project description cannot be empty");
-            }
-            if (project.getStartDate() == null) {
-                throw new IllegalArgumentException(
-                        "Project start date cannot be empty");
-            }
-            if (project.getEndDate() == null) {
-                throw new IllegalArgumentException(
-                        "Project end date cannot be empty");
-            }
-            if (project.getEndDate().before(project.getStartDate())) {
-                throw new IllegalArgumentException("End date cannot be before start date");
-            }
+    public int createProject(Project project) {
 
-           int projectId = projectRepository.insertProject(
-                   project.getName(),
-                   project.getDescription(),
-                   project.getStartDate(),
-                   project.getEndDate());
+        // Insert project into database
+        int projectId = projectRepository.insertProject(
+                project.getName(),
+                project.getDescription(),
+                project.getStartDate(),
+                project.getEndDate());
 
-            if (project.getEmployees() != null && !project.getEmployees().isEmpty()) {
-                for (Employee employee : project.getEmployees()) {
-                    if (employee.getEmployeeId() <= 0) {
-                        throw new IllegalArgumentException("Invalid employee ID: " + employee.getEmployeeId());
-                    }
-                    projectRepository.insertProjectEmployee(projectId, employee.getEmployeeId());
+        if (projectId == -1) {
+            return -1;
+    }
+        // Add employees to the project
+        if (project.getEmployees() != null && !project.getEmployees().isEmpty()) {
+            for (Employee employee : project.getEmployees()) {
+                if (employee.getEmployeeId() <= 0) {
+                    throw new IllegalArgumentException("Invalid employee ID: " + employee.getEmployeeId());
                 }
+                projectRepository.insertProjectEmployee(projectId, employee.getEmployeeId());
             }
         }
+        return projectId;
     }
+
+    // Get project
+    public Project getProjectById(int projectId) {
+        return projectRepository.getProjectDetails(projectId);
+    }
+
 }
+
+

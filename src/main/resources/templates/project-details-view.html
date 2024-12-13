@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Project Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@600&display=swap"> <!-- Google Fonts -->
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Project Details</h2>
+
+    <!-- Display error message if project is not found -->
+    <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+    <!-- Project Information -->
+    <div th:if="${project != null}">
+        <label for="project-name">Project Name:</label>
+        <p id="project-name" th:text="${project.name}">[Project Name]</p>
+        <br>
+
+        <label for="project-description">Description:</label>
+        <p id="project-description" th:text="${project.description}">[Project Description]</p>
+        <br>
+
+        <label for="start-date">Start Date:</label>
+        <p id="start-date" th:text="${project.startDate}">[Start Date]</p>
+        <br>
+
+        <label for="end-date">End Date:</label>
+        <p id="end-date" th:text="${project.endDate}">[End Date]</p>
+        <br>
+
+        <!-- Placeholder for future additions -->
+        <h3>Subprojects and Tasks</h3>
+        <p>Details about subprojects and tasks will be displayed here in future iterations.</p>
+    </div>
+
+    <!-- Navigation -->
+    <br>
+    <a th:if="${isProjectManager == true}" th:href="@{/calculation-tool/project-manager-dashboard}" class="btn btn-secondary">
+        Back to Dashboard
+    </a>
+    <a th:if="${isProjectManager == false}" th:href="@{/calculation-tool/employee-dashboard}" class="btn btn-secondary">
+        Back to Dashboard
+    </a>
+</div>
+
+</body>
+</html>

@@ -6,7 +6,7 @@ public class Task {
     private int taskId;
     private String name;
     private String description;
-    private int priority;
+    private int priority; // TODO: Kunne være enum
     private int estimatedHours;
     private Date deadline;
 

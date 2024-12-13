@@ -2,19 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Login</title>
-  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@600&display=swap"> <!-- Google Fonts -->
+  <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
-<h2>Login</h2>
-<form action="/calculationtool/login" method="POST" accept-charset="UTF-8">
-  <label for="email">Email:</label>
-  <input type="text" id="email" name="email" required><br><br>
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" required><br><br>
-  <button type="submit">Login</button>
-</form>
-<div>
-  <p th:text="${message}"></p> <!-- Displays error message if invalid login -->
+
+<div class="container">
+  <h2>Login to Calculation Tool</h2>
+
+  <!-- Display error message if login fails -->
+  <div th:if="${session.errorMessage}">
+    <p class="error-message" th:text="${session.errorMessage}"></p>
+  </div>
+
+  <!-- Login Form -->
+  <form action="/calculation-tool/login" method="POST">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required placeholder="Enter your email">
+    <br><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required placeholder="Enter your password">
+    <br><br>
+    <button type="submit">Login</button>
+  </form>
 </div>
+
 </body>
 </html>
