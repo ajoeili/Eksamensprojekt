@@ -25,7 +25,7 @@ public class DashboardController {
     public String projectManagerDashboard(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("loggedInEmployee");
 
-        if (employee == null || !employee.isProjectManager()) {
+        if (employee == null || !employee.getIsProjectManager()) {
             return "redirect:/calculation-tool/login";
         }
         model.addAttribute("employeeName", employee.getFirstName() + " " + employee.getLastName());
@@ -38,7 +38,7 @@ public class DashboardController {
     public String employeeDashboard(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("loggedInEmployee");
 
-        if (employee == null || employee.isProjectManager()) {
+        if (employee == null || employee.getIsProjectManager()) { // TODO tjek om det er bedre med en hjælpemetode
             return "redirect:/calculation-tool/login";
         }
 
@@ -56,5 +56,7 @@ public class DashboardController {
         model.addAttribute("projects", employeeService.getProjectsForEmployee(employee.getEmployeeId()));
         return "employee-dashboard-view";
     }
+
+
 
 }

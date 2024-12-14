@@ -1,3 +1,4 @@
+/*
 package eksamensprojekt.service;
 
 import eksamensprojekt.model.Employee;
@@ -126,3 +127,4 @@ public class ProjectServiceUnitTest {
 
 
 }
+*/

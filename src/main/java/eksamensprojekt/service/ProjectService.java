@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.thymeleaf.model.IModel;
 
+import java.util.List;
+
 @Service
 public class ProjectService {
 
@@ -19,7 +21,7 @@ public class ProjectService {
     }
 
     // Create new project
-    public int createProject(Project project) {
+    public int createProject(Project project, List<Integer> employeeIds) {
 
         // Insert project into database
         int projectId = projectRepository.insertProject(
@@ -32,18 +34,18 @@ public class ProjectService {
             return -1;
     }
         // Add employees to the project
-        if (project.getEmployees() != null && !project.getEmployees().isEmpty()) {
-            for (Employee employee : project.getEmployees()) {
-                if (employee.getEmployeeId() <= 0) {
-                    throw new IllegalArgumentException("Invalid employee ID: " + employee.getEmployeeId());
+        if (employeeIds != null && !employeeIds.isEmpty()) {
+            for (Integer employeeId : employeeIds) {
+                if (employeeId <= 0) {
+                    throw new IllegalArgumentException("Invalid employee ID: " + employeeId);
                 }
-                projectRepository.insertProjectEmployee(projectId, employee.getEmployeeId());
+                projectRepository.insertProjectEmployee(projectId, employeeId);
             }
         }
         return projectId;
     }
 
-    // Get project
+    // Get project by ID
     public Project getProjectById(int projectId) {
         return projectRepository.getProjectDetails(projectId);
     }

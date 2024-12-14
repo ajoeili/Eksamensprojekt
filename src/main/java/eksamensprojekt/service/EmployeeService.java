@@ -19,7 +19,7 @@ public class EmployeeService {
     }
 
     public List<Employee> getAllEmployees() {
-        return employeeRepository.findAllEmployees();
+        return employeeRepository.getAllEmployees();
     }
 
     public Employee findByEmail(String email) {
@@ -28,6 +28,10 @@ public class EmployeeService {
 
     public List<Project> getProjectsForEmployee(int employeeId) {
         return employeeRepository.getProjectsForEmployee(employeeId);
+    }
+
+    public Employee getEmployeeById(int employeeId) {
+        return employeeRepository.getEmployeeById(employeeId);
     }
 
 }

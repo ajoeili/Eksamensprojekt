@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class TaskRepository {
 
@@ -28,4 +30,14 @@ public class TaskRepository {
         String query = "SELECT * FROM TASKS WHERE task_id = ?";
         return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(Task.class), taskId);
     }
+
+    // Get tasks by subproject ID using BeanPropertyRowMapper
+    public List<Task> getTasksBySubProjectId(int subProjectId) {
+        System.out.println("Fetching tasks for subproject with ID: " + subProjectId);
+        String query = "SELECT * FROM TASKS WHERE SUBPROJECT_ID = ?";
+        List<Task> tasks = jdbcTemplate.query(query, new Object[]{subProjectId}, new BeanPropertyRowMapper<>(Task.class));
+        System.out.println("Found " + tasks.size() + " tasks for subproject ID " + subProjectId);
+        return tasks;
+    }
+
 }

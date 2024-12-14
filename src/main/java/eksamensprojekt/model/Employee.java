@@ -69,11 +69,11 @@ public class Employee {
         this.role = role;
     }
 
-    public boolean isProjectManager() {
+    public boolean getIsProjectManager() {
         return isProjectManager;
     }
 
-    public void setProjectManager(boolean projectManager) {
+    public void setIsProjectManager(boolean projectManager) {
         isProjectManager = projectManager;
     }
 }

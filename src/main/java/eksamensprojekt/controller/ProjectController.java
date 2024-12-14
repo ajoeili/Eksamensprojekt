@@ -2,15 +2,16 @@ package eksamensprojekt.controller;
 
 import eksamensprojekt.model.Employee;
 import eksamensprojekt.model.Project;
+import eksamensprojekt.model.SubProject;
 import eksamensprojekt.service.EmployeeService;
 import eksamensprojekt.service.ProjectService;
+import eksamensprojekt.service.SubProjectService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -19,11 +20,13 @@ public class ProjectController {
 
     private final ProjectService projectService;
     private final EmployeeService employeeService;
+    private final SubProjectService subProjectService;
 
     @Autowired
-    public ProjectController(ProjectService projectService, EmployeeService employeeService) {
+    public ProjectController(ProjectService projectService, EmployeeService employeeService, SubProjectService subProjectService) {
         this.projectService = projectService;
         this.employeeService = employeeService;
+        this.subProjectService = subProjectService;
     }
 
     // Show create project form
@@ -43,6 +46,9 @@ public class ProjectController {
     public String createProject(@ModelAttribute("project") Project project,
                                 @RequestParam ("employees") List<Integer> employeeIds,
                                 Model model, HttpSession session) {
+        // Debug logging
+        System.out.println("Received Project: " + project);
+        System.out.println("Selected Employees: " + employeeIds);
 
         String checkLoggedInAndPermission = checkLoggedInAndPermission(model, session);
         if (checkLoggedInAndPermission != null) {
@@ -80,18 +86,8 @@ public class ProjectController {
             return "create-project";
         }
 
-        // Prepare employee list
-        List<Employee> employees = new ArrayList<>();
-
-        for (Integer employeeId : employeeIds) {
-            Employee employee = new Employee();
-            employee.setEmployeeId(employeeId);
-            employees.add(employee);
-        }
-        project.setEmployees(employees);
-
         try {
-            int projectId = projectService.createProject(project);
+            int projectId = projectService.createProject(project, employeeIds);
 
             if (projectId == -1) {
                 model.addAttribute("errorMessage", "Error: Could not create project. Please try again.");
@@ -99,7 +95,7 @@ public class ProjectController {
                 return "create-project";
             }
 
-            return "redirect:/projects";
+            return "redirect:/calculation-tool/project-manager-dashboard";
 
         } catch (IllegalArgumentException e) {
             model.addAttribute("errorMessage", e.getMessage());
@@ -130,8 +126,12 @@ public class ProjectController {
             model.addAttribute("errorMessage", "The requested project does not exist.");
             return "error-view";
         }
+
+        List<SubProject> subProjects = subProjectService.getSubProjectsWithTasksByProjectId(id);
+
         model.addAttribute("project", project);
-        model.addAttribute("isProjectManager", employee.isProjectManager());
+        model.addAttribute("subProjects", subProjects);
+        model.addAttribute("isProjectManager", employee.getIsProjectManager());
         return "project-details-view";
     }
 
@@ -140,7 +140,7 @@ public class ProjectController {
         if (loggedInEmployee == null) {
             return "redirect:/calculation-tool/login";
         }
-        if (!loggedInEmployee.isProjectManager()) {
+        if (!loggedInEmployee.getIsProjectManager()) {
             model.addAttribute("errorMessage", "You do not have permission to create projects.");
             return "error-view";
         }

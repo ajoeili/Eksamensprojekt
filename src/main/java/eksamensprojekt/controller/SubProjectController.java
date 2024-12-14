@@ -92,7 +92,7 @@ public class SubProjectController {
         if (loggedInEmployee == null) {
             return "redirect:/calculation-tool/login";
         }
-        if (!loggedInEmployee.isProjectManager()) {
+        if (!loggedInEmployee.getIsProjectManager()) {
             model.addAttribute("errorMessage", "You do not have permission to create subprojects.");
             return "error-view";
         }

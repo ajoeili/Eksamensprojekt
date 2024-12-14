@@ -32,7 +32,12 @@ public class LoginController {
 
         if (employee != null && employee.getPassword().equals(password)) {
             session.setAttribute("loggedInEmployee", employee);
-            if (employee.isProjectManager()) {
+
+            // Debugging the role
+            System.out.println("DEBUG: Employee Role: " + employee.getRole());
+            System.out.println("DEBUG: Is Project Manager: " + employee.getIsProjectManager());
+
+            if (employee.getIsProjectManager()) {
                 return "redirect:/calculation-tool/project-manager-dashboard"; // Redirects to project-manager-dashboard-view.html
             } else {
                 return "redirect:/calculation-tool/employee-dashboard"; // Redirects to employee dashboard.html
