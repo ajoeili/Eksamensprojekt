@@ -1,6 +1,7 @@
 package eksamensprojekt.service;
 
 import eksamensprojekt.model.Employee;
+import eksamensprojekt.model.Project;
 import eksamensprojekt.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,19 @@ public class EmployeeService {
     }
 
     public List<Employee> getAllEmployees() {
-        return employeeRepository.findAllEmployees();
+        return employeeRepository.getAllEmployees();
     }
 
+    public Employee findByEmail(String email) {
+        return employeeRepository.findByEmail(email);
+    }
+
+    public List<Project> getProjectsForEmployee(int employeeId) {
+        return employeeRepository.getProjectsForEmployee(employeeId);
+    }
+
+    public Employee getEmployeeById(int employeeId) {
+        return employeeRepository.getEmployeeById(employeeId);
+    }
 
 }

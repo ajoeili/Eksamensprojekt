@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Add your stylesheet here -->
+</head>
+<body>
+<div class="error-container">
+    <h1>Error</h1>
+    <div th:if="${errorMessage}">
+        <p th:text="${errorMessage}"></p> <!-- Display error message from model -->
+    </div>
+    <div th:if="${errorMessage == null}">
+        <p>An unexpected error occurred. Please try again later.</p>
+    </div>
+
+    <div>
+        <a href="/calculation-tool/login">Go to Login</a> <!-- Link to login page -->
+        <a href="/projects">Go to Projects</a> <!-- Link to projects page -->
+    </div>
+</div>
+</body>
+</html>

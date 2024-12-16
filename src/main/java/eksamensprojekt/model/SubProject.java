@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class SubProject {
-    private int subProjectId;
+    private int subprojectId;
     private String name;
     private String description;
     private Date startDate;
@@ -13,20 +13,20 @@ public class SubProject {
 
     public SubProject() {}
 
-    public SubProject(int subProjectId, String name, String description, Date startDate, Date endDate) {
-        this.subProjectId = subProjectId;
+    public SubProject(int subprojectId, String name, String description, Date startDate, Date endDate) {
+        this.subprojectId = subprojectId;
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public int getSubProjectId() {
-        return subProjectId;
+    public int getSubprojectId() {
+        return subprojectId;
     }
 
-    public void setSubProjectId(int subProjectId) {
-        this.subProjectId = subProjectId;
+    public void setSubprojectId(int subprojectId) {
+        this.subprojectId = subprojectId;
     }
 
     public String getName() {

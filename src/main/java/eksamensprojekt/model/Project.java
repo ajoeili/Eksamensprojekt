@@ -1,15 +1,19 @@
 package eksamensprojekt.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
-import java.util.List;
 
 public class Project {
     private int projectId;
     private String name;
     private String description;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
-    private List<Employee> employees;
 
     public Project() {
     }
@@ -62,11 +66,4 @@ public class Project {
         this.endDate = endDate;
     }
 
-    public List<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
-    }
 }
