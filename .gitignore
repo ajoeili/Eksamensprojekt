@@ -32,4 +32,11 @@ build/
 ### VS Code ###
 .vscode/
 
+src/test
+
+src/main/resources/h2init.sql
+src/main/resources/application-dev.properties
+
+.github
+qodana.yaml
 
