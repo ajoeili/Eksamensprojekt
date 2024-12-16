@@ -39,8 +39,8 @@
             <label for="end-date">End Date:</label>
             <p id="end-date" th:text="${#dates.format(project.endDate, 'dd-MM-yyyy')}">[End Date]</p>
 
-            <!-- Create Subproject Button -->
-            <a th:href="@{/subprojects/create/{projectId}(projectId=${project.getProjectId()})}" class="btn btn-primary">
+            <!-- Create Subproject Button (Only for Project Managers) -->
+            <a th:if="${isProjectManager}" th:href="@{/subprojects/create/{projectId}(projectId=${project.getProjectId()})}" class="btn btn-primary">
                 Create Sub-project
             </a>
         </div>
@@ -76,8 +76,8 @@
         <label>Description:</label>
         <p th:text="${subProject.description}">Subproject Description</p>
 
-        <!-- Create Task Button -->
-        <a th:href="@{/tasks/create/{subprojectId}(subprojectId=${subProject.getSubprojectId()})}" class="btn btn-secondary">
+        <!-- Create Task Button (Only for Project Managers) -->
+        <a th:if="${isProjectManager}" th:href="@{/tasks/create/{subprojectId}(subprojectId=${subProject.getSubprojectId()})}" class="btn btn-secondary">
             Create Task
         </a>
 
@@ -105,8 +105,8 @@
                     <td th:text="${#dates.format(task.deadline, 'dd-MM-yyyy')}">Deadline</td>
                     <td th:text="${task.getIsCompleted() ? 'Completed' : 'Not Completed'}"></td>
                     <td>
-                        <!-- Task Status -->
-                        <form th:action="@{/tasks/projects/{projectId}/{taskId}/completion(projectId=${project.getProjectId()}, taskId=${task.getTaskId()})}" method="post">
+                        <!-- Task Status (Only for Project Managers) -->
+                        <form th:if="${isProjectManager}" th:action="@{/tasks/projects/{projectId}/{taskId}/completion(projectId=${project.getProjectId()}, taskId=${task.getTaskId()})}" method="post">
                             <input type="hidden" name="isCompleted" th:value="${!task.getIsCompleted()}">
                             <button type="submit"
                                     th:text="${task.getIsCompleted() ? 'Mark as Incomplete' : 'Mark as Completed'}"
