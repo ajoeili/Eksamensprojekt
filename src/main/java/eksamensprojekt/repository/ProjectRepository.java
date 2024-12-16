@@ -18,30 +18,34 @@ public class ProjectRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+    // Dependency injection in constructor
     @Autowired
     public ProjectRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // Insert project and return the generated project ID
+    // Insert project and return the generated project id
     public int insertProject(String name, String description, Date startDate, Date endDate) {
         String sql = "INSERT INTO PROJECTS (name, description, start_date, end_date) VALUES (?, ?, ?, ?)";
 
+        // Key-holder to retrieve the auto-incremented project id
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
+        // Lambda function to create and configure prepared statement
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); // Returns the auto-incremented project id
             ps.setString(1, name);
             ps.setString(2, description);
             ps.setDate(3, new java.sql.Date(startDate.getTime()));
             ps.setDate(4, new java.sql.Date(endDate.getTime()));
             return ps;
-        }, keyHolder);
+        }, keyHolder); // Key-holder holds the project id
 
+        // Error handling in case project id is null
         if (keyHolder.getKey() != null) {
-            return keyHolder.getKey().intValue();
+            return keyHolder.getKey().intValue(); // Return project id
         } else {
-            return -1; // TODO: Check if there is a better way to handle this
+            return -1; // Return -1 if project id is not found
         }
     }
 
@@ -51,15 +55,17 @@ public class ProjectRepository {
         jdbcTemplate.update(sql, projectId, employeeId);
     }
 
-    // Select project details
+    // Get project details
     public Project getProjectDetails(int projectId) {
         String query = "SELECT * FROM PROJECTS WHERE project_id = ?";
-        System.out.println("Executing query for project ID: " + projectId); // Log the ID being passed
+
+        // Error handling in case project is null
         try {
+            // Maps rows to a project object and returns object
             return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(Project.class), projectId);
+
         } catch (EmptyResultDataAccessException e) {
-            System.out.println("No project found for ID: " + projectId); // Log if project is not found
-            return null;
+            return null; // Return null if project does not exist
         }
     }
 

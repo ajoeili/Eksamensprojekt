@@ -23,37 +23,38 @@ public class DashboardController {
     // Project manager dashboard
     @GetMapping("/project-manager-dashboard")
     public String projectManagerDashboard(HttpSession session, Model model) {
+
+        // Check if employee is logged in and if they are the project manager
         Employee employee = (Employee) session.getAttribute("loggedInEmployee");
 
         if (employee == null || !employee.getIsProjectManager()) {
             return "redirect:/calculation-tool/login";
         }
+
+        // Add employee name and projects to the model
         model.addAttribute("employeeName", employee.getFirstName() + " " + employee.getLastName());
         model.addAttribute("projects", employeeService.getProjectsForEmployee(employee.getEmployeeId()));
+
+        // Show project manager dashboard
         return "project-manager-dashboard-view";
     }
 
     // Employee dashboard
     @GetMapping("/employee-dashboard")
     public String employeeDashboard(HttpSession session, Model model) {
+
+        // Check if employee is logged in and is not project manager
         Employee employee = (Employee) session.getAttribute("loggedInEmployee");
 
-        if (employee == null || employee.getIsProjectManager()) { // TODO tjek om det er bedre med en hjælpemetode
+        if (employee == null || employee.getIsProjectManager()) {
             return "redirect:/calculation-tool/login";
         }
 
-        // Log employee information
-        System.out.println("DEBUG: Logged in employee ID: " + employee.getEmployeeId());
-        System.out.println("DEBUG: Employee Name: " + employee.getFirstName() + " " + employee.getLastName());
-
-        // Log projects retrieved
-        System.out.println("DEBUG: Fetching projects for employee...");
-        employeeService.getProjectsForEmployee(employee.getEmployeeId()).forEach(project ->
-                System.out.println("DEBUG: Project ID: " + project.getProjectId() + ", Name: " + project.getName())
-        );
-
+        // Add employee name and projects to the model
         model.addAttribute("employeeName", employee.getFirstName() + " " + employee.getLastName());
         model.addAttribute("projects", employeeService.getProjectsForEmployee(employee.getEmployeeId()));
+
+        // Show employee dashboard
         return "employee-dashboard-view";
     }
 

@@ -2,24 +2,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Viewport configuration for responsive design -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error</title>
-    <link rel="stylesheet" href="/css/styles.css"> <!-- Add your stylesheet here -->
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts for Styling -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@600&display=swap">
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
 <div class="error-container">
     <h1>Error</h1>
+
+    <!-- Display Custom Error Message -->
     <div th:if="${errorMessage}">
-        <p th:text="${errorMessage}"></p> <!-- Display error message from model -->
+        <!-- Displays the error message dynamically passed from the model -->
+        <p th:text="${errorMessage}"></p>
     </div>
+
+    <!-- Default Error Message -->
     <div th:if="${errorMessage == null}">
+        <!-- Fallback message when no specific error message is provided -->
         <p>An unexpected error occurred. Please try again later.</p>
     </div>
 
+    <!-- Navigation Links -->
     <div>
-        <a href="/calculation-tool/login">Go to Login</a> <!-- Link to login page -->
-        <a href="/projects">Go to Projects</a> <!-- Link to projects page -->
+        <!-- Link to the Login Page -->
+        <a href="/calculation-tool/login">Go to Login</a>
+        <!-- Link to the Projects Page -->
+        <a href="/projects">Go to Projects</a>
     </div>
 </div>
 </body>
