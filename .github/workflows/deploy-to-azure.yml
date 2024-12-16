@@ -5,9 +5,12 @@ on:
   push:
     branches:
       - deployment
+      - dev          # You can also include other branches like dev, feature/* etc.
   workflow_dispatch:
+
 jobs:
-  build:
+  test:
+    if: github.ref != 'refs/heads/deployment'  # Skip tests for production branch
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,6 +19,19 @@ jobs:
         with:
           java-version: '21'
           distribution: 'zulu'
+      - name: Run tests with Maven
+        run: mvn clean test
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test  # Make sure the build only runs after tests
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java version
+        uses: actions/setup-java@v4
+        with:
+          java-version: 'java21'
+          distribution: 'microsoft'
       - name: Build with Maven
         run: mvn clean install
       - name: Upload artifact for deployment job
@@ -23,6 +39,7 @@ jobs:
         with:
           name: java-app
           path: '${{ github.workspace }}/target/*.jar'
+          
   deploy:
     runs-on: ubuntu-latest
     needs: build
