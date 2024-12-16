@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+  <meta charset="UTF-8">
+  <!-- Viewport configuration for responsive design -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Employee Dashboard</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@600&display=swap"> <!-- Google Fonts -->
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts for Styling -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@600&display=swap">
+  <!-- Local Stylesheet -->
   <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
@@ -11,8 +17,14 @@
 <div class="container">
   <!-- Navigation Bar -->
   <div class="navbar">
+    <!-- Welcome message with the employee's name -->
     <h1>Welcome, <span th:text="${employeeName}">Employee</span></h1>
-    <a href="/calculation-tool/logout" class="btn btn-secondary logout-btn" onclick="return confirm('Are you sure you want to log out?');">
+
+    <!-- Logout Button -->
+    <!-- Includes a confirmation dialog when clicked -->
+    <a href="/calculation-tool/logout"
+       class="btn btn-secondary logout-btn"
+       onclick="return confirm('Are you sure you want to log out?');">
       <i class="fas fa-sign-out-alt"></i> Logout
     </a>
   </div>
@@ -22,13 +34,22 @@
   <!-- List of current projects -->
   <div class="project-list">
     <h3>Your Projects</h3>
+
+    <!-- Message for No Projects -->
+    <!-- Displays if the projects-list is empty -->
     <div th:if="${projects.isEmpty()}">
       <p>No projects found. Contact your manager to be assigned to a project.</p>
     </div>
+
+    <!-- List of Projects -->
+    <!-- Displays if there are projects in the projects-list -->
     <div th:if="${!projects.isEmpty()}">
       <ul>
+        <!-- Iterates through each project in the projects-list -->
+        <!-- Each project is rendered as a clickable link to its details page -->
         <li th:each="project : ${projects}">
-          <a th:href="@{/projects/{id}(id=${project.projectId})}" th:text="${project.name}"></a>
+          <a th:href="@{/projects/{id}(id=${project.projectId})}"
+             th:text="${project.name}"></a>
         </li>
       </ul>
     </div>

@@ -1,40 +1,89 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+  <meta charset="UTF-8">
+  <!-- Viewport configuration for responsive design -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Task</title>
+  <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts for Styling -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@600&display=swap">
+  <!-- Local Stylesheet -->
   <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
 
 <div class="container">
-  <h2>Create New Task for Subproject: <span th:text="${subProject.name}"></span></h2>
+  <h2>Create New Task</h2>
 
-  <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+  <!-- Global Error Message -->
+  <!-- This block displays an error message if provided by the model -->
+  <div th:if="${errorMessage}" class="alert alert-danger">
+    <!-- Dynamically displays the error message -->
+    <p th:text="${errorMessage}"></p>
+  </div>
 
-  <form action="#" th:action="@{/tasks/create/{subProjectId}(subProjectId=${subProject.subProjectId})}" method="POST">
-    <label for="name">Task name:</label>
-    <input type="text" id="name" name="name" required placeholder="Enter task name">
-    <br><br>
+  <!-- Task Creation Form -->
+  <form th:action="@{/tasks/create/{subProjectId}(subProjectId=${subProjectId})}"
+        method="POST"
+        th:object="${task}"
+        class="form">
 
-    <label for="description">Description:</label>
-    <input type="text" id="description" name="description" required placeholder="Enter description">
-    <br><br>
+    <!-- Input field bound to the name property of the task object -->
+    <div class="form-group">
+      <label for="name">Task Name:</label>
+      <input type="text" id="name" th:field="*{name}" class="form-control"
+             placeholder="Enter task name" required>
+    </div>
 
-    <label for="priority">Priority:</label>
-    <input type="text" id="priority" name="priority" required placeholder="Enter priority">
-    <br><br>
+    <!-- Input field bound to the description property of the task object -->
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea id="description" th:field="*{description}" class="form-control"
+                placeholder="Enter task description" rows="3"></textarea>
+    </div>
 
-    <label for="estimated-hours">Estimated Hours:</label>
-    <input type="number" id="estimated-hours" name="estimatedHours" required>
-    <br><br>
+    <!-- Numeric input field bound to the priority property of the task object -->
+    <!-- Validates priority between 1 and 5 -->
+    <div class="form-group">
+      <label for="priority">Priority:</label>
+      <input type="number" id="priority" th:field="*{priority}" class="form-control"
+             placeholder="Enter priority (1-5)" required min="1" max="5" step="1">
+    </div>
 
-    <label for="deadline">Deadline:</label>
-    <input type="date" id="deadline" name="deadline" required>
-    <br><br>
+    <!-- Numeric input field bound to the estimated hours property of the task object -->
+    <!-- Validates hours between 1 and 10 -->
+    <div class="form-group">
+      <label for="estimated-hours">Estimated Hours:</label>
+      <input type="number" id="estimated-hours" th:field="*{estimatedHours}"
+             class="form-control" placeholder="Enter estimated hours (1-10)"
+             required min="1" max="10" step="1">
+    </div>
 
-    <button type="submit">Create Task</button>
+    <!-- Date input field bound to the deadline property of the task object -->
+    <div class="form-group">
+      <label for="deadline">Deadline:</label>
+      <input type="date" id="deadline" th:field="*{deadline}" class="form-control" required>
+    </div>
+
+    <!-- Dropdown to assign a specific employee to the task -->
+    <!-- Options are dynamically populated from the employees list -->
+    <div class="form-group">
+      <label for="employeeId">Assign Employee:</label>
+      <select id="employeeId" name="employeeId" class="form-control" required>
+        <!-- Placeholder option -->
+        <option value="" disabled selected>Select an employee</option>
+        <!-- Iterate through employees and create an option for each -->
+        <option th:each="employee : ${employees}"
+                th:value="${employee.employeeId}"
+                th:text="${employee.firstName + ' ' + employee.lastName}">
+        </option>
+      </select>
+    </div>
+
+    <!-- Button to submit the form data -->
+    <button type="submit" class="btn btn-primary">Create Task</button>
   </form>
 </div>
 

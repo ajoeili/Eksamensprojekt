@@ -9,7 +9,7 @@ public class Project {
     private String name;
     private String description;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd") //Date formatting to display without time stamp
     private Date startDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

@@ -1,5 +1,7 @@
 package eksamensprojekt.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 import java.util.List;
 
@@ -7,8 +9,13 @@ public class SubProject {
     private int subprojectId;
     private String name;
     private String description;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd") // Date formatting to display without time stamp
     private Date startDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
+
     private List<Task> tasks;
 
     public SubProject() {}

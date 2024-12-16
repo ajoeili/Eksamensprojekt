@@ -11,7 +11,9 @@ public class Employee {
 
     public Employee() {}
 
-    public Employee(int employeeId, String firstName, String lastName, String email, String password, String role, boolean isProjectManager) {
+    public Employee(int employeeId, String firstName, String lastName, String email,
+                    String password, String role, boolean isProjectManager) {
+
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;

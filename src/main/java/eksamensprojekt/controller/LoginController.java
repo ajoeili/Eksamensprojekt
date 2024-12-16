@@ -13,6 +13,7 @@ public class LoginController {
 
     private final EmployeeService employeeService;
 
+    // Dependency injection in the constructor
     @Autowired
     public LoginController(EmployeeService employeeService) {
         this.employeeService = employeeService;
@@ -21,26 +22,29 @@ public class LoginController {
     // Show login form
     @GetMapping("/login")
     public String showLoginForm(HttpSession session) {
-        session.removeAttribute("errorMessage"); // Clears error message in case there is one stored in the session
-        return "login-form"; // Returns login-form.html
+
+        // Clears error message in case there is one stored in the session
+        session.removeAttribute("errorMessage");
+
+        // Show login form
+        return "login-form";
     }
 
     // Handle login submission
     @PostMapping("/login")
     public String processLoginForm(String email, String password, HttpSession session) {
+
+        // Check if the employee login details are correct and save in session
         Employee employee = employeeService.findByEmail(email);
 
         if (employee != null && employee.getPassword().equals(password)) {
             session.setAttribute("loggedInEmployee", employee);
 
-            // Debugging the role
-            System.out.println("DEBUG: Employee Role: " + employee.getRole());
-            System.out.println("DEBUG: Is Project Manager: " + employee.getIsProjectManager());
-
+            // Check if employee is project manager or regular employee
             if (employee.getIsProjectManager()) {
-                return "redirect:/calculation-tool/project-manager-dashboard"; // Redirects to project-manager-dashboard-view.html
+                return "redirect:/calculation-tool/project-manager-dashboard"; // Show project manager dashboard
             } else {
-                return "redirect:/calculation-tool/employee-dashboard"; // Redirects to employee dashboard.html
+                return "redirect:/calculation-tool/employee-dashboard"; // Show employee dashboard
             }
         }
         session.setAttribute("errorMessage", "Invalid email or password");
@@ -51,8 +55,12 @@ public class LoginController {
     // Handle logout
     @GetMapping("/logout")
     public String logout(HttpSession session) {
+
+        // Invalidate session when logging out
         session.invalidate();
-        return "redirect:/calculation-tool/login"; // Redirects to login-form.html
+
+        // Redirect back to login page
+        return "redirect:/calculation-tool/login";
     }
 
 

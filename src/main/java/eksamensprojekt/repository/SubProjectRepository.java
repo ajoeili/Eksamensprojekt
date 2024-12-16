@@ -5,8 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -14,50 +18,74 @@ public class SubProjectRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+    // Dependency injection in constructor
     @Autowired
     public SubProjectRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // Insert new subproject into the database
-    public int insertSubProject(int projectId, SubProject subProject) {
-        String query = "INSERT INTO SUBPROJECTS (project_id, name, description, start_date, end_date) VALUES (?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(query, projectId, subProject.getName(),
-                subProject.getDescription(), subProject.getStartDate(), subProject.getEndDate());
+    // Insert new subproject and return the generated subproject id
+    public int insertSubProject(String name, String description, Date startDate, Date endDate, int projectId) {
+        String query = "INSERT INTO SUBPROJECTS (name, description, start_date, end_date, project_id) VALUES (?, ?, ?, ?, ?)";
+
+        // Key-holder to retrieve the auto-incremented subproject id
+        KeyHolder keyholder = new GeneratedKeyHolder();
+
+        // Lambda function to create and configure prepared statement
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS); // Returns the auto-incremented project id
+            ps.setString(1, name);
+            ps.setString(2, description);
+            ps.setDate(3, new java.sql.Date(startDate.getTime()));
+            ps.setDate(4, new java.sql.Date(endDate.getTime()));
+            ps.setInt(5, projectId);
+            return ps;
+        }, keyholder); // Key-holder holds the project id
+
+        // Error handling in case subproject id is null
+        if (keyholder.getKey() != null) {
+            return keyholder.getKey().intValue(); // Return subproject id
+        } else {
+            return -1; // Return -1 if subproject id is not found
+        }
     }
 
-    // Select subproject details
+    // Get subproject details
     public SubProject getSubProjectDetails(int subProjectId) {
         String query = "SELECT * FROM SUBPROJECTS WHERE sub_project_id = ?";
-        System.out.println("Executing query for subproject ID: " + subProjectId); // Log the ID being passed;
+
+        // Error handling in case project is null
         try {
+            // Maps rows to a subproject object and returns object
             return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(SubProject.class), subProjectId);
+
         } catch (EmptyResultDataAccessException e) {
-            System.out.println("No subproject found for subproject ID: " + subProjectId);
-            return null;
+            return null; // Return null if project does not exist
         }
     }
 
-    // Get subprojects for a given project ID
+    // Get subprojects for a given project id
     public List<SubProject> getSubProjectsByProjectId(int projectId) {
-        // Log the projectId before executing the query
-        System.out.println("Fetching subprojects for project ID: " + projectId);
-
-        // SQL query to fetch subprojects by projectId
         String query = "SELECT * FROM SUBPROJECTS WHERE PROJECT_ID = ?";
 
-        // Execute the query and get the list of subprojects
-        List<SubProject> subProjects = jdbcTemplate.query(query, new Object[]{projectId}, new BeanPropertyRowMapper<>(SubProject.class));
+        // Maps the rows to subproject objects and returns the objects
+        return jdbcTemplate.query(query, new Object[]{projectId}, new BeanPropertyRowMapper<>(SubProject.class));
+    }
 
-        // Log the result after the query
-        System.out.println("Found " + subProjects.size() + " subprojects for project ID " + projectId);
+    // Get project id by subproject id
+    public int getProjectIdBySubProjectId(int subProjectId) {
+        String query = "SELECT PROJECT_ID FROM SUBPROJECTS WHERE SUBPROJECT_ID = ?";
 
-        // Log each subproject ID and its name
-        for (SubProject subProject : subProjects) {
-            System.out.println("SubProject ID: " + subProject.getSubprojectId() + ", Name: " + subProject.getName());
+        // Maps result set to an Integer value that corresponds to a project id associated with the subproject id
+        Integer projectId = jdbcTemplate.queryForObject(query, new Object[]{subProjectId}, (rs, rowNum) -> {
+            return rs.getInt("PROJECT_ID"); // Extract the PROJECT_ID column
+        });
+
+        // Error handling in case subproject id is not found
+        if (projectId == null) {
+            throw new IllegalArgumentException("Subproject ID not found: " + subProjectId);
         }
-
-        return subProjects;
+        return projectId;
     }
 
 }
