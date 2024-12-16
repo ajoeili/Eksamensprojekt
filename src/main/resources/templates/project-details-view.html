@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- Viewport configuration for responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Manager Dashboard</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts for Styling -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@600&display=swap">
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+
+<body>
+<div class="container">
+
+    <!-- Page Title -->
+    <h2>Project Details</h2>
+
+    <!-- Error Handling -->
+    <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+    <!-- Project Details -->
+    <div th:if="${project != null}" class="project-details">
+
+        <!-- Project Information Section -->
+        <div class="project-info">
+            <label for="project-name">Project Name:</label>
+            <p id="project-name" th:text="${project.name}">[Project Name]</p>
+
+            <label for="project-description">Description:</label>
+            <p id="project-description" th:text="${project.description}">[Project Description]</p>
+
+            <label for="start-date">Start Date:</label>
+            <p id="start-date" th:text="${#dates.format(project.startDate, 'dd-MM-yyyy')}">[Start Date]</p>
+
+            <label for="end-date">End Date:</label>
+            <p id="end-date" th:text="${#dates.format(project.endDate, 'dd-MM-yyyy')}">[End Date]</p>
+
+            <!-- Create Subproject Button (Only for Project Managers) -->
+            <a th:if="${isProjectManager}" th:href="@{/subprojects/create/{projectId}(projectId=${project.getProjectId()})}" class="btn btn-primary">
+                Create Sub-project
+            </a>
+        </div>
+
+        <!-- Info Box Section -->
+        <div class="info-boxes">
+            <!-- Total Estimated Hours -->
+            <div class="info-box">
+                <h4>Total Estimated Hours:</h4>
+                <p th:text="${totalEstimatedHours}">Total Estimated Hours</p>
+            </div>
+
+            <!-- Total Workdays -->
+            <div class="info-box">
+                <h4>Total Workdays (7.5 hours/day):</h4>
+                <p th:text="${totalWorkdays}">Total Workdays</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subprojects Section -->
+    <h3>Subprojects</h3>
+    <div th:each="subProject : ${subProjects}" class="subproject-container">
+
+        <!-- Subproject Details -->
+        <div class="subproject-title" th:text="${subProject.name}">Subproject Name</div>
+        <div class="subproject-info">
+            <label>Start Date:</label>
+            <span th:text="${#dates.format(subProject.startDate, 'dd-MM-yyyy')}">Start Date</span>
+            <label>End Date:</label>
+            <span th:text="${#dates.format(subProject.endDate, 'dd-MM-yyyy')}">End Date</span>
+        </div>
+        <label>Description:</label>
+        <p th:text="${subProject.description}">Subproject Description</p>
+
+        <!-- Create Task Button (Only for Project Managers) -->
+        <a th:if="${isProjectManager}" th:href="@{/tasks/create/{subprojectId}(subprojectId=${subProject.getSubprojectId()})}" class="btn btn-secondary">
+            Create Task
+        </a>
+
+        <!-- Tasks for Subproject -->
+        <h4>Tasks</h4>
+        <div th:if="${subProject.tasks != null and subProject.tasks.size() > 0}">
+            <table class="task-table">
+                <thead>
+                <tr>
+                    <th>Task Name</th>
+                    <th>Description</th>
+                    <th>Priority</th>
+                    <th>Estimated Hours</th>
+                    <th>Deadline</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="task : ${subProject.tasks}">
+                    <td th:text="${task.name}">Task Name</td>
+                    <td th:text="${task.description}">Task Description</td>
+                    <td th:text="${task.priority}">Priority</td>
+                    <td th:text="${task.estimatedHours}">Estimated Hours</td>
+                    <td th:text="${#dates.format(task.deadline, 'dd-MM-yyyy')}">Deadline</td>
+                    <td th:text="${task.getIsCompleted() ? 'Completed' : 'Not Completed'}"></td>
+                    <td>
+                        <!-- Task Status (Only for Project Managers) -->
+                        <form th:if="${isProjectManager}" th:action="@{/tasks/projects/{projectId}/{taskId}/completion(projectId=${project.getProjectId()}, taskId=${task.getTaskId()})}" method="post">
+                            <input type="hidden" name="isCompleted" th:value="${!task.getIsCompleted()}">
+                            <button type="submit"
+                                    th:text="${task.getIsCompleted() ? 'Mark as Incomplete' : 'Mark as Completed'}"
+                                    class="btn btn-sm"
+                                    th:classappend="${task.getIsCompleted() ? 'btn-danger' : 'btn-success'}">
+                                Mark as Completed
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${subProject.tasks == null or subProject.tasks.size() == 0}">
+            <p>No tasks available for this subproject.</p>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <br>
+    <a th:if="${isProjectManager}" th:href="@{/calculation-tool/project-manager-dashboard}" class="btn btn-secondary">
+        Back to Dashboard
+    </a>
+    <a th:if="${!isProjectManager}" th:href="@{/calculation-tool/employee-dashboard}" class="btn btn-secondary">
+        Back to Dashboard
+    </a>
+</div>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package eksamensprojekt.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Task {
@@ -8,7 +10,11 @@ public class Task {
     private String description;
     private int priority;
     private int estimatedHours;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd") // Date formatting to display without time stamp
     private Date deadline;
+
+    private boolean isCompleted;
 
     public Task() {}
 
@@ -19,6 +25,7 @@ public class Task {
         this.priority = priority;
         this.estimatedHours = estimatedHours;
         this.deadline = deadline;
+        isCompleted = false;
     }
 
     public int getTaskId() {
@@ -67,5 +74,13 @@ public class Task {
 
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
+    }
+
+    public boolean getIsCompleted() {
+        return isCompleted;
+    }
+
+    public void setIsCompleted(boolean completed) {
+        isCompleted = completed;
     }
 }

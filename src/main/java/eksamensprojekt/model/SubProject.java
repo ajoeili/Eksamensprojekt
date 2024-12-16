@@ -1,32 +1,39 @@
 package eksamensprojekt.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 import java.util.List;
 
 public class SubProject {
-    private int subProjectId;
+    private int subprojectId;
     private String name;
     private String description;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd") // Date formatting to display without time stamp
     private Date startDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
+
     private List<Task> tasks;
 
     public SubProject() {}
 
-    public SubProject(int subProjectId, String name, String description, Date startDate, Date endDate) {
-        this.subProjectId = subProjectId;
+    public SubProject(int subprojectId, String name, String description, Date startDate, Date endDate) {
+        this.subprojectId = subprojectId;
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public int getSubProjectId() {
-        return subProjectId;
+    public int getSubprojectId() {
+        return subprojectId;
     }
 
-    public void setSubProjectId(int subProjectId) {
-        this.subProjectId = subProjectId;
+    public void setSubprojectId(int subprojectId) {
+        this.subprojectId = subprojectId;
     }
 
     public String getName() {

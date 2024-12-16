@@ -11,7 +11,9 @@ public class Employee {
 
     public Employee() {}
 
-    public Employee(int employeeId, String firstName, String lastName, String email, String password, String role, boolean isProjectManager) {
+    public Employee(int employeeId, String firstName, String lastName, String email,
+                    String password, String role, boolean isProjectManager) {
+
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -69,11 +71,11 @@ public class Employee {
         this.role = role;
     }
 
-    public boolean isProjectManager() {
+    public boolean getIsProjectManager() {
         return isProjectManager;
     }
 
-    public void setProjectManager(boolean projectManager) {
+    public void setIsProjectManager(boolean projectManager) {
         isProjectManager = projectManager;
     }
 }
