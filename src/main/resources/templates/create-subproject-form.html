@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- Viewport configuration for responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Subproject</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts for Styling -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@600&display=swap">
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Create New Subproject</h2>
+
+    <!-- Global Error Message -->
+    <!-- This block is displayed if an error message is passed in the model -->
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <!-- Displays the error message dynamically -->
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <!-- Subproject Creation Form -->
+    <form th:action="@{/subprojects/create/{projectId}(projectId=${projectId})}"
+          method="POST"
+          th:object="${subProject}"
+          class="form">
+
+        <!-- Input field bound to the name property of the subproject object -->
+        <div class="form-group">
+            <label for="name">Subproject Name:</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control"
+                   placeholder="Enter subproject name" required>
+        </div>
+
+        <!-- Input field bound to the description property of the subproject object -->
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" th:field="*{description}" class="form-control"
+                      placeholder="Enter subproject description" rows="3"></textarea>
+        </div>
+
+        <!-- Date input field bound to the start date property of the subproject object -->
+        <div class="form-group">
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date" th:field="*{startDate}" class="form-control" required>
+        </div>
+
+        <!-- Date input field bound to the end date property of the subproject object -->
+        <div class="form-group">
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date" th:field="*{endDate}" class="form-control" required>
+        </div>
+
+        <!-- Button to submit the form data -->
+        <button type="submit" class="btn btn-primary">Create Subproject</button>
+    </form>
+</div>
+
+</body>
+</html>

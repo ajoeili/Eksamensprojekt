@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <!-- Viewport configuration for responsive design -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts for Styling -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@600&display=swap">
+  <!-- Local Stylesheet -->
+  <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+
+<div class="container">
+  <!-- Page Title -->
+  <h2>Login to Calculation Tool</h2>
+
+  <!-- Error Message Display -->
+  <!-- If the session contains an error message, display it here -->
+  <div th:if="${session.errorMessage}">
+    <p class="error-message" th:text="${session.errorMessage}"></p>
+  </div>
+
+  <!-- Login Form -->
+  <form action="/calculation-tool/login" method="POST">
+    <!-- Email Input Field -->
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required placeholder="Enter your email">
+    <br><br>
+
+    <!-- Password Input Field -->
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required placeholder="Enter your password">
+    <br><br>
+
+    <!-- Submit Button -->
+    <button type="submit">Login</button>
+  </form>
+</div>
+
+</body>
+</html>
