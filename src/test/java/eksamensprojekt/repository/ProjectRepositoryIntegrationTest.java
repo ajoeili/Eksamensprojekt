@@ -30,6 +30,19 @@ public class ProjectRepositoryIntegrationTest {
     // This method sets up the test environment before each test method is executed
     @BeforeEach
     public void setUp() {
+
+        // Disable referential integrity temporarily for tests
+        jdbcTemplate.execute("SET REFERENTIAL_INTEGRITY FALSE");
+
+        // Delete rows from dependent tables in the correct order
+        jdbcTemplate.execute("DELETE FROM TASKS");
+        jdbcTemplate.execute("DELETE FROM SUBPROJECTS");
+        jdbcTemplate.execute("DELETE FROM PROJECT_EMPLOYEE");
+        jdbcTemplate.execute("DELETE FROM PROJECTS");
+
+        // Re-enable referential integrity
+        jdbcTemplate.execute("SET REFERENTIAL_INTEGRITY TRUE");
+
         // Create test project data
         String name = "Test Project 23";
         String description = "Test Description 23";
