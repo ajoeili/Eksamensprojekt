@@ -44,15 +44,15 @@ public class LoginControllerUnitTest {
     @Test
     public void testProcessLoginForm_success() throws Exception {
         // Mock the employee data to simulate a successful login
-        Employee mockEmployee = new Employee(12, "Jens", "Hansen", "test@email.com", "password", "Tester", true);
+        Employee mockEmployee = new Employee(12, "Lise", "Hansen", "test6@email.com", "password", "Tester", true);
 
         // Mock the service method to return the mock employee when searching by email
-        when(employeeService.findByEmail("test@email.com")).thenReturn(mockEmployee);
+        when(employeeService.findByEmail("test6@email.com")).thenReturn(mockEmployee);
 
         // Perform a POST request to the login endpoint with valid credentials
         // Verify the user is redirected to the project manager dashboard upon successful login
         mockMvc.perform(post("/calculation-tool/login")
-                        .param("email", "test@email.com") // Simulate entering email in the login form
+                        .param("email", "test6@email.com") // Simulate entering email in the login form
                         .param("password", "password")    // Simulate entering password in the login form
                         .session(mockSession))                          // Attach the mock session to simulate user login
                 .andExpect(redirectedUrl("/calculation-tool/project-manager-dashboard")); // Expect a redirect to the project manager dashboard

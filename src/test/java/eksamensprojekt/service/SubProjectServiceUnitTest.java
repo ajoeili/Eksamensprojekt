@@ -67,8 +67,8 @@ public class SubProjectServiceUnitTest {
     @Test
     public void testCreateSubProject_Failure() {
         // Create a new subproject and define the expected subproject id and project id
-        int subprojectId = 101; // Expected subproject id
-        SubProject subProject = new SubProject(subprojectId, "SubProject 1", "Description of SubProject", new Date(), new Date());
+        int subprojectId = 102; // Expected subproject id
+        SubProject subProject = new SubProject(subprojectId, "SubProject 2", "Description of SubProject", new Date(), new Date());
         int projectId = 1;
 
         // Mock insertSubProject to return -1, indicating failure

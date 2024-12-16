@@ -73,7 +73,7 @@ public class ProjectServiceUnitTest {
     @Test
     public void testCreateProject_FailedInsert() {
         // Create a new project and a list of employee id's
-        Project project = new Project(10, "New Project", "Description of the project", new Date(), new Date());
+        Project project = new Project(11, "New Project2", "Description of the project", new Date(), new Date());
         List<Integer> employeeIds = List.of(1, 2, 3);
 
         // Mock insertProject to return -1, indicating failure
@@ -106,7 +106,7 @@ public class ProjectServiceUnitTest {
     @Test
     public void testCreateProject_EmptyName() {
         // Create a project with an empty name
-        Project project = new Project(10, "", "Description of the project", new Date(), new Date());
+        Project project = new Project(12, "", "Description of the project", new Date(), new Date());
         List<Integer> employeeIds = List.of(1);
 
         // Verify that an IllegalArgumentException is thrown with the correct message
@@ -120,7 +120,7 @@ public class ProjectServiceUnitTest {
     @Test
     public void testCreateProject_EmptyDescription() {
         // Create a project with an empty description
-        Project project = new Project(10, "New Project", "", new Date(), new Date());
+        Project project = new Project(13, "New Project3", "", new Date(), new Date());
         List<Integer> employeeIds = List.of(1);
 
         // Verify that an IllegalArgumentException is thrown with the correct message
@@ -134,7 +134,7 @@ public class ProjectServiceUnitTest {
     @Test
     public void testCreateProject_NullStartDate() {
         // Create a project with a null start date
-        Project project = new Project(10, "New Project", "Description of the project", null, new Date());
+        Project project = new Project(14, "New Project4", "Description of the project", null, new Date());
         List<Integer> employeeIds = List.of(1);
 
         // Verify that an IllegalArgumentException is thrown with the correct message
@@ -148,7 +148,7 @@ public class ProjectServiceUnitTest {
     @Test
     public void testCreateProject_NullEndDate() {
         // Create a project with a null end date
-        Project project = new Project(10, "New Project", "Description of the project", new Date(), null);
+        Project project = new Project(15, "New Project5", "Description of the project", new Date(), null);
         List<Integer> employeeIds = List.of(1);
 
         // Verify that an IllegalArgumentException is thrown with the correct message
@@ -164,7 +164,7 @@ public class ProjectServiceUnitTest {
         // Create a project with the end date before the start date
         Date startDate = new Date();
         Date endDate = new Date(startDate.getTime() - 1000);  // End date is 1 second before the start date
-        Project project = new Project(10, "New Project", "Description of the project", startDate, endDate);
+        Project project = new Project(16, "New Project6", "Description of the project", startDate, endDate);
         List<Integer> employeeIds = List.of(1);
 
         // Verify that an IllegalArgumentException is thrown with the correct message
@@ -178,7 +178,7 @@ public class ProjectServiceUnitTest {
     @Test
     public void testCreateProject_InvalidEmployeeId() {
         // Create a project with an invalid employee id
-        Project project = new Project(10, "New Project", "Description of the project", new Date(), new Date());
+        Project project = new Project(17, "New Project7", "Description of the project", new Date(), new Date());
         List<Integer> employeeIds = List.of(0); // Invalid employee ID
 
         // Verify that an IllegalArgumentException is thrown with the correct message

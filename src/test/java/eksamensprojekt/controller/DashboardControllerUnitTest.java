@@ -50,7 +50,7 @@ public class DashboardControllerUnitTest {
     @Test
     public void testProjectManagerDashboard() throws Exception {
         // Mock employee representing a project manager
-        Employee mockEmployee = new Employee(12, "Jens", "Hansen", "test@email.com", "password", "Tester", true);
+        Employee mockEmployee = new Employee(12, "Jens", "Hansen", "test4@email.com", "password", "Tester", true);
 
         // Mock the service call to return a list of projects for the mocked employee
         when(employeeService.getProjectsForEmployee(mockEmployee.getEmployeeId())).thenReturn(List.of(new Project(123, "Test project", "Test description", new Date(), new Date())));
@@ -73,10 +73,10 @@ public class DashboardControllerUnitTest {
     @Test
     public void testEmployeeDashboard() throws Exception {
         // Mock employee representing an employee (not a project manager)
-        Employee mockEmployee = new Employee(12, "Jens", "Hansen", "test@email.com", "password", "Tester", false);
+        Employee mockEmployee = new Employee(12, "Mads", "Hansen", "test3@email.com", "password", "Tester", false);
 
         // Mock the service call to return a list of projects for the mocked employee
-        when(employeeService.getProjectsForEmployee(mockEmployee.getEmployeeId())).thenReturn(List.of(new Project(123, "Test project", "Test description", new Date(), new Date())));
+        when(employeeService.getProjectsForEmployee(mockEmployee.getEmployeeId())).thenReturn(List.of(new Project(123, "Test project45", "Test description", new Date(), new Date())));
 
         // Set the mock employee as the logged-in user in the session
         mockSession.setAttribute("loggedInEmployee", mockEmployee);
@@ -105,7 +105,7 @@ public class DashboardControllerUnitTest {
     @Test
     public void testProjectManagerDashboard_NoProjects() throws Exception {
         // Mock employee representing a project manager
-        Employee mockEmployee = new Employee(12, "Jens", "Hansen", "test@email.com", "password", "Tester", true);
+        Employee mockEmployee = new Employee(12, "Hans", "Hansen", "test2@email.com", "password", "Tester", true);
 
         // Mock the service call to return an empty list of projects for the mocked employee
         when(employeeService.getProjectsForEmployee(mockEmployee.getEmployeeId())).thenReturn(new ArrayList<>());
@@ -131,7 +131,7 @@ public class DashboardControllerUnitTest {
     @Test
     public void testEmployeeDashboard_NoProjects() throws Exception {
         // Mock employee representing an employee (not a project manager)
-        Employee mockEmployee = new Employee(12, "Jens", "Hansen", "test@email.com", "password", "Tester", false);
+        Employee mockEmployee = new Employee(12, "Morten", "Hansen", "test1@email.com", "password", "Tester", false);
 
         // Mock the service call to return an empty list of projects for the mocked employee
         when(employeeService.getProjectsForEmployee(mockEmployee.getEmployeeId())).thenReturn(new ArrayList<>());

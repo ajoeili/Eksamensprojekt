@@ -31,8 +31,8 @@ public class ProjectRepositoryIntegrationTest {
     @BeforeEach
     public void setUp() {
         // Create test project data
-        String name = "Test Project";
-        String description = "Test Description";
+        String name = "Test Project 23";
+        String description = "Test Description 23";
         Date startDate = new Date();  // Current date as the start date
         Date endDate = new Date();    // Current date as the end date (for simplicity in this example)
 
