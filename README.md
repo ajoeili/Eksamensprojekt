@@ -1,33 +1,40 @@
-# 1. Calculation-tool
+# Calculation-tool
 This project was developed to assist the project planning process by creating a user-friendly overview of the 
 project, as well as calculating the timeframe and estimated workdays required to finish the project.
 
-# 2. Project Description
+## Project Description
 
 The program can create projects with attached subprojects as well as tasks and assign these to specific employees.
 The estimated hours based on the task details are then displayed in a project detail view along with the total workdays required.
 To function, it requires valid authentication via email and password, and only project managers can create new tasks, subprojects, and projects.
 
-## Technologies Used
+### Technologies Used
 
-- **Programming Languages**: Java (Azul JDK 21), HTML5, CSS3
+- **Programming Languages**:
+  - Java (Azul JDK 21)
+  - HTML5
+  - CSS3
+    
 - **Frameworks & Libraries**:
-  - **Spring Data JDBC 2024.1**
-  - **Spring Web 3.4.0**
-  - **Thymeleaf 3.1.2**
-  - **Protocol Buffers 4.28.2** (for efficient data serialization)
+  - Spring Data JDBC 2024.1
+  - Spring Web 3.4.0
+  - Thymeleaf 3.1.2
+  - Protocol Buffers 4.28.2 (for efficient data serialization)
+    
 - **Databases**:
-  - **H2 SQL** (org.hibernate.dialect.H2Dialect for local development)
-  - **MySQL 8.0.29** (for production)
+  - H2 SQL (org.hibernate.dialect.H2Dialect for local development)
+  - MySQL 8.0.29 (for production)
+    
 - **Build Tools**:
-  - **Maven 4.0.0** (for dependency management and build automation)
+  - Maven 4.0.0 (for dependency management and build automation)
+    
 - **Other Tools**:
-  - **H2 2.3.232** (in-memory database for local testing/development)
-  - **Mockito 5.14.2** (for local testing)
-  - **Maven Surefire plugin 3.0.0-M5** (for debugging logs)
-  - **JUnit Jupiter 5.11** (for local unit testing)
+  - H2 2.3.232 (in-memory database for local testing/development)
+  - Mockito 5.14.2 (for local testing)
+  - Maven Surefire plugin 3.0.0-M5 (for debugging logs)
+  - JUnit Jupiter 5.11 (for local unit testing)
 
-# 3. Installation
+## Installation
 
 ### Prerequisites
 
@@ -82,7 +89,7 @@ Test login: teje49@email.com // password2
 
 Test login: jajo40@email.com // password3
 
-**Contribute**
+### Contribute
 
 You are welcome contribute to the project! 
 If you would like to help improve the project, please follow the guidelines in the CONTRIBUTING.md file.
